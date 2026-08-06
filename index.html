@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trending Today — News, explained and published by you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F1E3;
+    --bg-alt:#EFE6D2;
+    --card:#FFFDF7;
+    --ink:#23201A;
+    --ink-soft:#5B5346;
+    --ink-faint:#8C8371;
+    --line:#E3D9C0;
+    --line-soft:#ECE3CC;
+
+    --navy:#1F4E79;      --navy-bg:#E7EEF5;
+    --sage:#5C7A4E;       --sage-bg:#ECF1E4;
+    --teal:#2F7A73;       --teal-bg:#E7F1EF;
+    --rust:#B25B2E;       --rust-bg:#F5E9DE;
+    --plum:#7C5E82;       --plum-bg:#F0E9F1;
+    --slate:#586873;      --slate-bg:#E7ECEE;
+    --taupe:#8A7B63;       --taupe-bg:#EFE8D8;
+    --brick:#9B2226;      --brick-bg:#F5E4E1;
+
+    --radius-sm:10px;--radius-md:16px;--radius-lg:24px;
+    --shadow:0 1px 2px rgba(35,32,26,0.05), 0 8px 24px -12px rgba(35,32,26,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Libre Franklin',sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:'Lora',serif;}
+  .display{font-family:'Libre Franklin',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  img{max-width:100%;display:block;}
+
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,241,227,0.86);backdrop-filter:blur(14px) saturate(1.1);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{max-width:1180px;margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-0.02em;}
+  .logo-mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--navy) 0%, var(--rust) 50%, var(--plum) 100%);flex-shrink:0;}
+  nav.links{display:flex;gap:28px;align-items:center;}
+  nav.links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);transition:color .15s ease;cursor:pointer;}
+  nav.links a:hover{color:var(--ink);}
+  .nav-right{display:flex;align-items:center;gap:14px;}
+  .icon-btn{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--card);cursor:pointer;transition:all .15s ease;}
+  .icon-btn:hover{border-color:var(--ink-faint);transform:translateY(-1px);}
+  .icon-btn svg{width:16px;height:16px;stroke:var(--ink-soft);}
+  .btn{padding:9px 18px;border-radius:100px;font-size:14px;font-weight:600;background:var(--navy);color:#fff;border:1px solid var(--navy);cursor:pointer;transition:transform .15s ease, opacity .15s ease;white-space:nowrap;}
+  .btn:hover{opacity:.88;transform:translateY(-1px);}
+  .btn-outline{background:transparent;color:var(--ink);border:1px solid var(--line);}
+  .btn-outline:hover{border-color:var(--ink-faint);opacity:1;}
+
+  .hero{position:relative;overflow:hidden;padding:88px 0 80px;}
+  .hero::before{content:"";position:absolute;top:-180px;right:-140px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(31,78,121,0.14), transparent 70%);filter:blur(10px);}
+  .hero::after{content:"";position:absolute;bottom:-220px;left:-160px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle at 60% 40%, rgba(124,94,130,0.13), transparent 70%);filter:blur(10px);}
+  .hero-inner{position:relative;z-index:1;max-width:760px;margin:0 auto;text-align:center;}
+  .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);padding:6px 14px;border-radius:100px;margin-bottom:26px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--sage);animation:pulse 1.4s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  h1.hero-title{font-size:52px;line-height:1.1;letter-spacing:-0.02em;font-weight:800;margin:0 0 20px;}
+  h1.hero-title .accent{background:linear-gradient(90deg,var(--navy),var(--plum));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero-sub{font-family:'Lora',serif;font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:560px;margin:0 auto 36px;}
+  .search-bar{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:100px;padding:8px 8px 8px 22px;box-shadow:var(--shadow);max-width:580px;margin:0 auto;}
+  .search-bar svg{width:18px;height:18px;stroke:var(--ink-faint);flex-shrink:0;}
+  .search-bar input{flex:1;border:none;outline:none;background:transparent;font-size:15px;font-family:'Libre Franklin';color:var(--ink);}
+  .search-bar input::placeholder{color:var(--ink-faint);}
+  .search-bar .btn{padding:11px 22px;}
+  .trending-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px;}
+  .chip{font-size:13px;font-weight:500;color:var(--ink-soft);border:1px solid var(--line);padding:7px 14px;border-radius:100px;background:var(--card);transition:all .15s ease;cursor:pointer;}
+  .chip:hover{border-color:var(--ink-faint);color:var(--ink);}
+
+  section{padding:76px 0;}
+  .section-alt{background:var(--bg-alt);}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;gap:24px;}
+  .section-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .section-title{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0;}
+  .section-link{font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;display:flex;align-items:center;gap:5px;cursor:pointer;}
+  .section-link svg{width:14px;height:14px;stroke:var(--navy);transition:transform .15s ease;}
+  .section-link:hover svg{transform:translateX(3px);}
+
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .cat-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md);padding:22px;transition:all .18s ease;cursor:pointer;}
+  .cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--line-soft);}
+  .cat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+  .cat-icon svg{width:17px;height:17px;}
+  .cat-name{font-size:15px;font-weight:700;margin-bottom:4px;}
+  .cat-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);}
+
+  .index-list{border-top:1px solid var(--line);}
+  .index-row{display:grid;grid-template-columns:44px 1fr auto auto;align-items:center;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);transition:padding-left .15s ease;cursor:pointer;}
+  .index-row:hover{padding-left:6px;}
+  .index-num{font-weight:800;font-size:15px;color:var(--ink-faint);}
+  .index-main .index-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin-bottom:6px;}
+  .index-tag .tag-dot{width:6px;height:6px;border-radius:50%;}
+  .index-title{font-size:16.5px;font-weight:700;letter-spacing:-0.01em;}
+  .index-meta{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-faint);white-space:nowrap;text-align:right;}
+  .index-arrow{width:16px;height:16px;stroke:var(--ink-faint);flex-shrink:0;}
+
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .blog-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden;transition:all .18s ease;cursor:pointer;display:flex;flex-direction:column;}
+  .blog-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .blog-thumb{height:140px;position:relative;background-size:cover;background-position:center;}
+  .blog-body{padding:20px 22px 20px;display:flex;flex-direction:column;flex:1;}
+  .blog-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;display:block;}
+  .blog-title{font-size:17px;font-weight:700;line-height:1.35;margin-bottom:10px;letter-spacing:-0.01em;}
+  .blog-excerpt{font-family:'Lora',serif;font-size:14px;color:var(--ink-soft);line-height:1.55;margin-bottom:16px;flex:1;}
+  .blog-foot{display:flex;align-items:center;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);}
+  .blog-actions{display:flex;gap:6px;}
+  .icon-sm{background:transparent;border:1px solid var(--line);color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:4px 8px;border-radius:4px;cursor:pointer;}
+  .icon-sm:hover{color:var(--navy);border-color:var(--navy);}
+  .icon-sm.danger:hover{color:var(--brick);border-color:var(--brick);}
+
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden;}
+  .stat-cell{background:var(--card);padding:30px 24px;}
+  .stat-num{font-size:32px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;}
+  .stat-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);}
+
+  .case-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;}
+  .case-visual{background:linear-gradient(135deg,var(--navy-bg),var(--plum-bg));position:relative;min-height:300px;background-size:cover;background-position:center;}
+  .case-content{padding:44px;display:flex;flex-direction:column;justify-content:center;}
+  .case-content h3{font-size:25px;font-weight:800;letter-spacing:-0.02em;margin:0 0 14px;line-height:1.25;}
+  .case-content p{font-family:'Lora',serif;font-size:15px;color:var(--ink-soft);line-height:1.65;margin-bottom:24px;}
+
+  .newsletter{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:52px 48px;text-align:center;position:relative;overflow:hidden;}
+  .newsletter::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%, rgba(31,78,121,0.4), transparent 60%), radial-gradient(circle at 80% 80%, rgba(124,94,130,0.32), transparent 60%);}
+  .newsletter-inner{position:relative;z-index:1;max-width:480px;margin:0 auto;}
+  .newsletter h3{font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0 0 10px;}
+  .newsletter p{font-family:'Lora',serif;font-size:15px;color:rgba(255,255,255,0.7);margin-bottom:26px;}
+  .newsletter-form{display:flex;gap:10px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);border-radius:100px;padding:6px 6px 6px 20px;}
+  .newsletter-form input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:14px;}
+  .newsletter-form input::placeholder{color:rgba(255,255,255,0.45);}
+  .newsletter-form .btn{background:#fff;color:var(--ink);border-color:#fff;}
+
+  .avatar{width:22px;height:22px;border-radius:50%;background:var(--line-soft);flex-shrink:0;}
+
+  .faq-list{max-width:760px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--line);padding:22px 0;}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:16px;font-weight:700;}
+  .faq-q svg{width:16px;height:16px;stroke:var(--ink-faint);flex-shrink:0;transition:transform .2s ease;}
+  .faq-item.open .faq-q svg{transform:rotate(45deg);}
+  .faq-a{font-family:'Lora',serif;font-size:14.5px;color:var(--ink-soft);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:220px;margin-top:14px;}
+
+  footer{border-top:1px solid var(--line);padding:52px 0 32px;}
+  .footer-grid{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:32px;margin-bottom:44px;}
+  .footer-col h4{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-faint);margin-bottom:16px;}
+  .footer-col a{display:block;font-size:14px;color:var(--ink-soft);margin-bottom:11px;transition:color .15s ease;cursor:pointer;}
+  .footer-col a:hover{color:var(--ink);}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:26px;border-top:1px solid var(--line-soft);font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-faint);flex-wrap:wrap;gap:8px;}
+
+  .empty-inline{padding:40px 20px;text-align:center;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:var(--radius-md);}
+
+  /* ---------- MODAL ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(35,32,26,.55);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:100;overflow-y:auto;}
+  .overlay.open{display:flex;}
+  .modal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md);max-width:640px;width:100%;padding:28px;box-shadow:var(--shadow);}
+  .modal h3{font-size:22px;font-weight:800;margin:0 0 20px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
+  .field input, .field textarea, .field select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:11px 12px;border-radius:8px;font-family:'Lora',serif;font-size:15px;}
+  .field input:focus, .field textarea:focus, .field select:focus{outline:none;border-color:var(--navy);}
+  .field textarea{min-height:150px;resize:vertical;line-height:1.5;font-family:'Lora',serif;}
+  .field .hint{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);margin-top:5px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .checkbox-row{display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+  .checkbox-row input{width:auto;}
+  .checkbox-row label{margin:0;text-transform:none;font-family:'Libre Franklin';font-size:13px;color:var(--ink);font-weight:500;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px;}
+
+  /* ---------- ARTICLE VIEW ---------- */
+  #articleView{display:none;padding:56px 32px 90px;max-width:760px;margin:0 auto;}
+  .back-link{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-faint);margin-bottom:24px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;}
+  .back-link:hover{color:var(--navy);}
+  .article-badge-row{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+  .article-badge{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;font-weight:600;}
+  .badge-breaking{background:var(--brick);color:#fff;}
+  #articleView h1{font-size:36px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;margin:0 0 16px;}
+  .article-meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+  .article-img{width:100%;max-height:380px;object-fit:cover;border-radius:var(--radius-md);margin-bottom:24px;border:1px solid var(--line);}
+  .article-body{font-family:'Lora',serif;font-size:18px;line-height:1.8;color:#332e21;white-space:pre-wrap;}
+  .article-actions{display:flex;gap:10px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;padding:12px 22px;border-radius:100px;opacity:0;transition:opacity .2s, transform .2s;z-index:200;pointer-events:none;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:900px){
+    nav.links{display:none;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .blog-grid{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .case-card{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+    h1.hero-title{font-size:36px;}
+    .index-row{grid-template-columns:30px 1fr auto;}
+    .index-meta{display:none;}
+    .row2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-mark"></span>Trending Today</div>
+    <nav class="links">
+      <a data-scroll="categories">Categories</a>
+      <a data-scroll="latest">Latest</a>
+      <a data-scroll="trending">Trending</a>
+      <a data-scroll="editors-pick">Editor's Pick</a>
+    </nav>
+    <div class="nav-right">
+      <div class="icon-btn" id="navSearchBtn" title="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </div>
+      <button class="btn btn-outline" id="loginBtn">Admin Login</button>
+      <button class="btn" id="newArticleBtn" style="display:none;">+ Publish</button>
+      <button class="btn btn-outline" id="logoutBtn" style="display:none;">Log out</button>
+    </div>
+  </div>
+</header>
+
+<div id="homeView">
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow"><span class="dot"></span><span id="eyebrowText">Publish your first story to get started</span></div>
+    <h1 class="hero-title display">Everyday news.<br><span class="accent">Explained, and published by you.</span></h1>
+    <p class="hero-sub">Trending Today is your own newsroom — file breaking stories, deep dives, and everyday reads across the topics that matter to your readers.</p>
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="heroSearch" placeholder="Search your articles..." />
+      <button class="btn" id="heroSearchBtn">Search</button>
+    </div>
+    <div class="trending-chips" id="heroChips"></div>
+  </div>
+</section>
+
+<section id="categories">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-label">Explore</div><h2 class="section-title display">Categories</h2></div>
+      <a class="section-link" data-scroll="latest">View all articles <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="cat-grid" id="categoryGrid"></div>
+  </div>
+</section>
+
+<section class="section-alt" id="trending">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-label">Right now</div><h2 class="section-title display">Trending stories</h2></div>
+    </div>
+    <div id="trendingWrap"></div>
+  </div>
+</section>
+
+<section id="latest">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="section-label" id="latestLabel">Fresh</div><h2 class="section-title display" id="latestTitle">Latest from Trending Today</h2></div>
+      <a class="section-link" id="clearFilterLink" style="display:none;">Clear filters <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    </div>
+    <div id="latestWrap"></div>
+  </div>
+</section>
+
+<section class="section-alt" id="editors-pick">
+  <div class="wrap">
+    <div id="featuredWrap"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head"><div><div class="section-label">By the numbers</div><h2 class="section-title display">Your newsroom in context</h2></div></div>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="newsletter">
+      <div class="newsletter-inner">
+        <h3 class="display">Get the weekly digest</h3>
+        <p>One email, every Thursday. Your most-read stories, straight to the inbox.</p>
+        <div class="newsletter-form">
+          <input type="email" id="newsletterEmail" placeholder="you@email.com" />
+          <button class="btn" id="newsletterBtn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head" style="justify-content:center;text-align:center;">
+      <div style="margin:0 auto;"><div class="section-label" style="text-align:center;">Questions</div><h2 class="section-title display">Frequently asked</h2></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q">What is Trending Today?<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="faq-a">It's your own self-published newsroom — write breaking news, opinion, and how-to guides, and they publish instantly with a live trending ticker and ranked homepage.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What goes in "Others"?<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="faq-a">Anything that doesn't fit neatly into the other categories — miscellaneous stories, roundups, and one-off pieces still worth publishing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How is "trending" decided?<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="faq-a">Ranked by views — every time an article is opened its view count goes up, so the list reflects what's actually being read right now.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Where is my data stored?<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="faq-a">Articles are saved to your personal account storage, so everything you publish is still here the next time you open this page.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:14px;"><span class="logo-mark"></span>Trending Today</div>
+        <p style="font-family:'Lora',serif;font-size:14px;color:var(--ink-soft);line-height:1.6;max-width:260px;">Independent, self-published news — breaking stories, opinion, and everyday reads, all in one place.</p>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><a data-scroll="categories">Categories</a><a data-scroll="latest">Latest articles</a><a data-scroll="trending">Trending</a><a data-scroll="editors-pick">Editor's Pick</a></div>
+      <div class="footer-col"><h4>Site</h4><a id="footerPublish">Publish an article</a></div>
+      <div class="footer-col"><h4>Resources</h4><a data-scroll="latest">All stories</a><a data-scroll="trending">Trending index</a></div>
+      <div class="footer-col"><h4>Legal</h4><a>Privacy policy</a><a>Terms of service</a></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Trending Today. All rights reserved.</div>
+      <div id="footerCount">0 stories published</div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /homeView -->
+
+<div id="articleView"></div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h3 id="modalTitle">Publish Article</h3>
+    <div class="field"><label for="f-title">Headline</label><input type="text" id="f-title" placeholder="What's happening?"></div>
+    <div class="row2">
+      <div class="field">
+        <label for="f-category">Category</label>
+        <select id="f-category">
+          <option>World</option>
+          <option>Business &amp; Technology</option>
+          <option>Consumer &amp; Lifestyle</option>
+          <option>Property &amp; Healthcare</option>
+          <option>Sports</option>
+          <option>Entertainment</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-author">Byline</label><input type="text" id="f-author" placeholder="Your name"></div>
+    </div>
+    <div class="field"><label for="f-image">Image URL (optional)</label><input type="text" id="f-image" placeholder="https://..."></div>
+    <div class="field"><label for="f-excerpt">Excerpt / Summary</label><textarea id="f-excerpt" style="min-height:70px" placeholder="One or two sentence summary"></textarea></div>
+    <div class="field"><label for="f-body">Article Body</label><textarea id="f-body" placeholder="Write your full article here..."></textarea></div>
+    <div class="checkbox-row"><input type="checkbox" id="f-breaking"><label for="f-breaking">Mark as Breaking News</label></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="cancelBtn">Cancel</button>
+      <button class="btn" id="saveBtn">Publish</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="loginOverlay">
+  <div class="modal" style="max-width:380px;">
+    <h3>Admin Login</h3>
+    <div class="field"><label for="login-email">Email</label><input type="email" id="login-email" placeholder="you@email.com"></div>
+    <div class="field"><label for="login-password">Password</label><input type="password" id="login-password" placeholder="••••••••"></div>
+    <div id="loginError" style="display:none;color:var(--brick);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:14px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="loginCancelBtn">Cancel</button>
+      <button class="btn" id="loginSubmitBtn">Log in</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+let articles = [];
+let editingId = null;
+let categoryFilter = null;
+let searchQuery = '';
+
+const META = {
+  'World':                  {color:'navy',  icon:`<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/>`},
+  'Business & Technology':  {color:'teal',  icon:`<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>`},
+  'Consumer & Lifestyle':   {color:'plum',  icon:`<path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 016 0v2"/>`},
+  'Property & Healthcare':  {color:'sage',  icon:`<path d="M3 11l9-7 9 7M5 10v9h14v-9"/><path d="M12 13v4M10 15h4"/>`},
+  'Sports':                 {color:'rust',  icon:`<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/>`},
+  'Entertainment':          {color:'slate', icon:`<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/>`},
+  'Others':                 {color:'taupe', icon:`<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>`},
+};
+const CATEGORIES = Object.keys(META);
+
+/* ============================================================
+   FIREBASE SETUP — replace the values below with your own project's
+   config (Firebase console → Project settings → General → Your apps).
+   See the setup steps provided alongside this file.
+   ============================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, query, orderBy, increment
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+const auth = getAuth(fbApp);
+const articlesCol = collection(db, 'articles');
+
+let isAdmin = false;
+
+function uid(){ return 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+function escapeHtml(str){ const d=document.createElement('div'); d.textContent = str||''; return d.innerHTML; }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function formatDate(ts){ const d=new Date(ts); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ' · ' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
+function timeAgo(ts){ const diff=Date.now()-ts; const mins=Math.floor(diff/60000); if(mins<1) return 'just now'; if(mins<60) return mins+'m ago'; const hrs=Math.floor(mins/60); if(hrs<24) return hrs+'h ago'; return Math.floor(hrs/24)+'d ago'; }
+
+/* live sync — every visitor's page updates automatically as articles change */
+onSnapshot(query(articlesCol, orderBy('createdAt','desc')), (snap)=>{
+  articles = snap.docs.map(d=>({ id:d.id, ...d.data() }));
+  renderAll();
+}, (err)=>{
+  console.error('Firestore error', err);
+  showToast('Could not load articles — check Firebase config/rules');
+});
+
+/* ---------- AUTH ---------- */
+onAuthStateChanged(auth, (user)=>{
+  isAdmin = !!user;
+  document.getElementById('loginBtn').style.display = isAdmin ? 'none' : 'inline-flex';
+  document.getElementById('newArticleBtn').style.display = isAdmin ? 'inline-flex' : 'none';
+  document.getElementById('logoutBtn').style.display = isAdmin ? 'inline-flex' : 'none';
+  renderAll();
+});
+
+function openLogin(){
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginOverlay').classList.add('open');
+  document.getElementById('login-email').focus();
+}
+function closeLogin(){ document.getElementById('loginOverlay').classList.remove('open'); }
+
+function handleLogin(){
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  signInWithEmailAndPassword(auth, email, password)
+    .then(()=>{ closeLogin(); showToast('Logged in as admin'); })
+    .catch((err)=>{ errEl.textContent = 'Login failed — check email and password.'; errEl.style.display = 'block'; console.error(err); });
+}
+function handleLogout(){ signOut(auth).then(()=>showToast('Logged out')); }
+
+/* ---------- MODAL ---------- */
+function openModal(article){
+  editingId = article ? article.id : null;
+  document.getElementById('modalTitle').textContent = article ? 'Edit Article' : 'Publish Article';
+  document.getElementById('f-title').value = article ? article.title : '';
+  document.getElementById('f-category').value = article ? article.category : 'World';
+  document.getElementById('f-author').value = article ? article.author : '';
+  document.getElementById('f-image').value = article ? (article.image||'') : '';
+  document.getElementById('f-excerpt').value = article ? article.excerpt : '';
+  document.getElementById('f-body').value = article ? article.body : '';
+  document.getElementById('f-breaking').checked = article ? !!article.breaking : false;
+  document.getElementById('saveBtn').textContent = article ? 'Save Changes' : 'Publish';
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('f-title').focus();
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); editingId = null; }
+
+async function handleSave(){
+  const title = document.getElementById('f-title').value.trim();
+  const body = document.getElementById('f-body').value.trim();
+  if(!title || !body){ showToast('Headline and article body are required'); return; }
+  const data = {
+    title,
+    category: document.getElementById('f-category').value,
+    author: document.getElementById('f-author').value.trim() || 'Staff Writer',
+    image: document.getElementById('f-image').value.trim(),
+    excerpt: document.getElementById('f-excerpt').value.trim() || body.slice(0,140)+'...',
+    body,
+    breaking: document.getElementById('f-breaking').checked,
+  };
+  try{
+    if(editingId){
+      await updateDoc(doc(db,'articles',editingId), data);
+      showToast('Article updated');
+    } else {
+      await addDoc(articlesCol, { ...data, createdAt: Date.now(), views: 0 });
+      showToast('Published');
+    }
+    closeModal();
+  }catch(err){
+    console.error(err);
+    showToast('Could not save — check you are logged in');
+  }
+}
+
+async function deleteArticle(id, e){
+  if(e) e.stopPropagation();
+  if(!confirm('Delete this article? This cannot be undone.')) return;
+  try{
+    await deleteDoc(doc(db,'articles',id));
+    showToast('Article deleted');
+  }catch(err){ console.error(err); showToast('Could not delete — check you are logged in'); }
+}
+function editArticle(id, e){ if(e) e.stopPropagation(); const a=articles.find(x=>x.id===id); if(a) openModal(a); }
+
+/* ---------- ARTICLE VIEW ---------- */
+function openArticle(id){
+  const a = articles.find(x=>x.id===id);
+  if(!a) return;
+  updateDoc(doc(db,'articles',id), { views: increment(1) }).catch(()=>{});
+  const m = META[a.category] || META['World'];
+  document.getElementById('homeView').style.display = 'none';
+  const view = document.getElementById('articleView');
+  view.style.display = 'block';
+  view.innerHTML = `
+    <div class="back-link" id="backLink">&larr; Back to Trending Today</div>
+    <div class="article-badge-row">
+      ${a.breaking ? '<span class="article-badge badge-breaking">Breaking</span>' : ''}
+      <span class="article-badge" style="background:var(--${m.color}-bg);color:var(--${m.color});">${a.category}</span>
+    </div>
+    <h1 class="display">${escapeHtml(a.title)}</h1>
+    <div class="article-meta">
+      <span>By ${escapeHtml(a.author)}</span><span>${formatDate(a.createdAt)}</span><span>${a.views||0} views</span>
+    </div>
+    ${a.image ? `<img src="${a.image}" class="article-img" alt="" onerror="this.style.display='none'">` : ''}
+    <div class="article-body">${escapeHtml(a.body)}</div>
+    ${isAdmin ? `
+    <div class="article-actions">
+      <button class="btn btn-outline" id="editFromView">Edit</button>
+      <button class="btn btn-outline" id="deleteFromView" style="color:var(--brick);border-color:var(--brick);">Delete</button>
+    </div>` : ''}
+  `;
+  document.getElementById('backLink').addEventListener('click', closeArticle);
+  if(isAdmin){
+    document.getElementById('editFromView').addEventListener('click', ()=>editArticle(a.id));
+    document.getElementById('deleteFromView').addEventListener('click', (e)=>deleteArticle(a.id,e));
+  }
+  window.scrollTo(0,0);
+}
+function closeArticle(){
+  document.getElementById('articleView').style.display = 'none';
+  document.getElementById('homeView').style.display = 'block';
+  renderAll();
+}
+
+/* ---------- RENDER: HERO ---------- */
+function renderHero(){
+  document.getElementById('eyebrowText').textContent = articles.length
+    ? `${articles.length} ${articles.length===1?'story':'stories'} published across ${new Set(articles.map(a=>a.category)).size} categories`
+    : 'Check back soon for new stories';
+  const chipsWrap = document.getElementById('heroChips');
+  const topCats = [...new Set(articles.map(a=>a.category))].slice(0,5);
+  const chips = topCats.length ? topCats : CATEGORIES.slice(0,5);
+  chipsWrap.innerHTML = chips.map(c=>`<a class="chip" data-cat="${c}">${c}</a>`).join('');
+  chipsWrap.querySelectorAll('.chip').forEach(el=>{
+    el.addEventListener('click', ()=>{ categoryFilter = el.dataset.cat; searchQuery=''; document.getElementById('heroSearch').value=''; renderLatest(); scrollToId('latest'); });
+  });
+}
+
+/* ---------- RENDER: CATEGORIES ---------- */
+function renderCategories(){
+  const grid = document.getElementById('categoryGrid');
+  grid.innerHTML = CATEGORIES.map(c=>{
+    const m = META[c];
+    const count = articles.filter(a=>a.category===c).length;
+    return `
+      <div class="cat-card" data-cat="${c}">
+        <div class="cat-icon" style="background:var(--${m.color}-bg);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--${m.color})" stroke-width="2">${m.icon}</svg></div>
+        <div class="cat-name">${c}</div>
+        <div class="cat-count">${count} article${count===1?'':'s'}</div>
+      </div>`;
+  }).join('');
+  grid.querySelectorAll('.cat-card').forEach(el=>{
+    el.addEventListener('click', ()=>{ categoryFilter = el.dataset.cat; searchQuery=''; document.getElementById('heroSearch').value=''; renderLatest(); scrollToId('latest'); });
+  });
+}
+
+/* ---------- RENDER: TRENDING ---------- */
+function renderTrending(){
+  const wrap = document.getElementById('trendingWrap');
+  const ranked = [...articles].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,5);
+  if(!ranked.length){
+    wrap.innerHTML = `<div class="empty-inline">No trending stories yet — publish an article and it'll show up here.</div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="index-list">${ranked.map((a,i)=>{
+    const m = META[a.category] || META['World'];
+    return `
+      <div class="index-row" data-id="${a.id}">
+        <div class="index-num">0${i+1}</div>
+        <div class="index-main">
+          <span class="index-tag" style="color:var(--${m.color});"><span class="tag-dot" style="background:var(--${m.color});"></span>${a.category}</span>
+          <div class="index-title">${escapeHtml(a.title)}</div>
+        </div>
+        <div class="index-meta">${a.views||0} views</div>
+        <svg class="index-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>`;
+  }).join('')}</div>`;
+  wrap.querySelectorAll('.index-row').forEach(el=>el.addEventListener('click', ()=>openArticle(el.dataset.id)));
+}
+
+/* ---------- RENDER: LATEST ---------- */
+function getFiltered(){
+  return articles.filter(a=>{
+    const matchCat = !categoryFilter || a.category===categoryFilter;
+    const q = searchQuery.trim().toLowerCase();
+    const matchQ = !q || a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.body.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+}
+function renderLatest(){
+  const wrap = document.getElementById('latestWrap');
+  const label = document.getElementById('latestLabel');
+  const title = document.getElementById('latestTitle');
+  const clearLink = document.getElementById('clearFilterLink');
+
+  if(categoryFilter || searchQuery){
+    label.textContent = 'Filtered';
+    title.textContent = categoryFilter ? `Category: ${categoryFilter}` : `Search: "${searchQuery}"`;
+    clearLink.style.display = 'flex';
+  } else {
+    label.textContent = 'Fresh';
+    title.textContent = 'Latest from Trending Today';
+    clearLink.style.display = 'none';
+  }
+
+  const filtered = getFiltered().slice(0, 9);
+  if(!articles.length){
+    wrap.innerHTML = `<div class="empty-inline">No stories published yet.${isAdmin ? ' Hit "+ Publish" above to file your first story.' : ' Check back soon.'}</div>`;
+    return;
+  }
+  if(!filtered.length){
+    wrap.innerHTML = `<div class="empty-inline">No stories match that filter.</div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="blog-grid">${filtered.map(a=>{
+    const m = META[a.category] || META['World'];
+    const bgStyle = a.image ? `background-image:url('${a.image}')` : `background:linear-gradient(135deg,var(--${m.color}-bg),var(--bg-alt))`;
+    return `
+      <div class="blog-card" data-id="${a.id}">
+        <div class="blog-thumb" style="${bgStyle}"></div>
+        <div class="blog-body">
+          <span class="blog-cat" style="color:var(--${m.color});">${a.breaking?'⬤ Breaking · ':''}${a.category}</span>
+          <div class="blog-title">${escapeHtml(a.title)}</div>
+          <div class="blog-excerpt">${escapeHtml(a.excerpt)}</div>
+          <div class="blog-foot">
+            <span>${escapeHtml(a.author)} · ${timeAgo(a.createdAt)}</span>
+            ${isAdmin ? `
+            <div class="blog-actions">
+              <button class="icon-sm" data-edit="${a.id}">Edit</button>
+              <button class="icon-sm danger" data-del="${a.id}">Delete</button>
+            </div>` : ''}
+          </div>
+        </div>
+      </div>`;
+  }).join('')}</div>`;
+
+  wrap.querySelectorAll('.blog-card').forEach(el=>{
+    el.addEventListener('click', (e)=>{ if(e.target.closest('button')) return; openArticle(el.dataset.id); });
+  });
+  wrap.querySelectorAll('[data-edit]').forEach(btn=>btn.addEventListener('click',(e)=>editArticle(btn.dataset.edit,e)));
+  wrap.querySelectorAll('[data-del]').forEach(btn=>btn.addEventListener('click',(e)=>deleteArticle(btn.dataset.del,e)));
+}
+
+/* ---------- RENDER: FEATURED (Editor's Pick) ---------- */
+function renderFeatured(){
+  const wrap = document.getElementById('featuredWrap');
+  const ranked = [...articles].sort((a,b)=>(b.views||0)-(a.views||0));
+  const featured = ranked[0];
+
+  if(!featured){
+    wrap.innerHTML = `
+      <div class="case-card" style="cursor:default;">
+        <div class="case-visual" style="background:linear-gradient(135deg,var(--navy-bg),var(--plum-bg));"></div>
+        <div class="case-content">
+          <div class="section-label">Editor's Pick</div>
+          <h3 class="display">${isAdmin ? 'Publish your first story to feature it here' : 'No stories published yet'}</h3>
+          <p>This spot spotlights the most-read article across every category.${isAdmin ? ' Publish a story and it\'ll show up here once it starts getting views.' : ' Check back soon.'}</p>
+          ${isAdmin ? `<button class="btn" id="featuredPublishBtn" style="width:fit-content;">Publish an article</button>` : ''}
+        </div>
+      </div>`;
+    if(isAdmin) document.getElementById('featuredPublishBtn').addEventListener('click', ()=>openModal(null));
+    return;
+  }
+  const m = META[featured.category] || META['World'];
+  const bgStyle = featured.image ? `background-image:url('${featured.image}');background-size:cover;background-position:center;` : `background:linear-gradient(135deg,var(--${m.color}-bg),var(--bg-alt));`;
+  wrap.innerHTML = `
+    <div class="case-card" data-id="${featured.id}">
+      <div class="case-visual" style="${bgStyle}"></div>
+      <div class="case-content">
+        <div class="section-label">Editor's Pick · Most read</div>
+        <h3 class="display">${escapeHtml(featured.title)}</h3>
+        <p>${escapeHtml(featured.excerpt)}</p>
+        <button class="btn" style="width:fit-content;">Read the full story</button>
+      </div>
+    </div>`;
+  wrap.querySelector('.case-card').addEventListener('click', ()=>openArticle(featured.id));
+}
+
+/* ---------- RENDER: STATS ---------- */
+function renderStats(){
+  const grid = document.getElementById('statsGrid');
+  const totalViews = articles.reduce((s,a)=>s+(a.views||0),0);
+  const catsUsed = new Set(articles.map(a=>a.category)).size;
+  const breakingCount = articles.filter(a=>a.breaking).length;
+  grid.innerHTML = `
+    <div class="stat-cell"><div class="stat-num" style="color:var(--navy);">${articles.length}</div><div class="stat-label">Articles published</div></div>
+    <div class="stat-cell"><div class="stat-num" style="color:var(--sage);">${catsUsed}</div><div class="stat-label">Categories covered</div></div>
+    <div class="stat-cell"><div class="stat-num" style="color:var(--plum);">${totalViews}</div><div class="stat-label">Total views</div></div>
+    <div class="stat-cell"><div class="stat-num" style="color:var(--brick);">${breakingCount}</div><div class="stat-label">Breaking stories</div></div>
+  `;
+  document.getElementById('footerCount').textContent = `${articles.length} ${articles.length===1?'story':'stories'} published`;
+}
+
+function scrollToId(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+
+function renderAll(){
+  renderHero();
+  renderCategories();
+  renderTrending();
+  renderLatest();
+  renderFeatured();
+  renderStats();
+}
+
+/* ---------- EVENTS ---------- */
+document.getElementById('newArticleBtn').addEventListener('click', ()=>openModal(null));
+document.getElementById('footerPublish').addEventListener('click', ()=>{ isAdmin ? openModal(null) : openLogin(); });
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+document.getElementById('saveBtn').addEventListener('click', handleSave);
+document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay') closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeModal(); closeLogin(); } });
+
+document.getElementById('loginBtn').addEventListener('click', openLogin);
+document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+document.getElementById('loginCancelBtn').addEventListener('click', closeLogin);
+document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
+document.getElementById('loginOverlay').addEventListener('click', (e)=>{ if(e.target.id==='loginOverlay') closeLogin(); });
+document.getElementById('login-password').addEventListener('keydown', (e)=>{ if(e.key==='Enter') handleLogin(); });
+
+document.querySelectorAll('[data-scroll]').forEach(el=>{
+  el.addEventListener('click', (e)=>{ e.preventDefault(); scrollToId(el.dataset.scroll); });
+});
+document.getElementById('navSearchBtn').addEventListener('click', ()=>{ scrollToId('categories'); document.getElementById('heroSearch').focus(); window.scrollTo(0,0); });
+
+function runSearch(){
+  searchQuery = document.getElementById('heroSearch').value;
+  categoryFilter = null;
+  renderLatest();
+  scrollToId('latest');
+}
+document.getElementById('heroSearchBtn').addEventListener('click', runSearch);
+document.getElementById('heroSearch').addEventListener('keydown', (e)=>{ if(e.key==='Enter') runSearch(); });
+document.getElementById('clearFilterLink').addEventListener('click', ()=>{ categoryFilter=null; searchQuery=''; document.getElementById('heroSearch').value=''; renderLatest(); });
+
+document.getElementById('newsletterBtn').addEventListener('click', ()=>{
+  const val = document.getElementById('newsletterEmail').value.trim();
+  if(!val || !val.includes('@')){ showToast('Enter a valid email'); return; }
+  document.getElementById('newsletterEmail').value = '';
+  showToast('Subscribed — thanks!');
+});
+
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click', ()=>{
+    const item = q.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+
+renderAll();
+</script>
+
+</body>
+</html>
