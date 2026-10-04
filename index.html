@@ -4,6 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Trending Today — News, explained and published by you</title>
+<meta name="description" id="metaDescription" content="Independent, self-published news — breaking stories, opinion, and everyday reads across World, Business &amp; Technology, Consumer &amp; Lifestyle, Property &amp; Healthcare, Sports, and Entertainment.">
+<meta property="og:title" id="ogTitle" content="Trending Today">
+<meta property="og:description" id="ogDescription" content="Independent, self-published news — breaking stories, opinion, and everyday reads.">
+<meta property="og:type" id="ogType" content="website">
+<meta property="og:url" id="ogUrl" content="https://trending-today.live/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -174,9 +179,6 @@
   .field input:focus, .field textarea:focus, .field select:focus{outline:none;border-color:var(--navy);}
   .field textarea{min-height:150px;resize:vertical;line-height:1.5;font-family:'Lora',serif;}
   .field .hint{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);margin-top:5px;}
-  .editor-toolbar{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;}
-  .editor-btn{background:var(--card);border:1px solid var(--line);color:var(--ink);min-width:32px;height:32px;padding:0 8px;border-radius:6px;font-family:'Libre Franklin',sans-serif;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s ease;}
-  .editor-btn:hover{border-color:var(--navy);color:var(--navy);}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .checkbox-row{display:flex;align-items:center;gap:8px;margin-bottom:18px;}
   .checkbox-row input{width:auto;}
@@ -193,16 +195,7 @@
   #articleView h1{font-size:36px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;margin:0 0 16px;}
   .article-meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
   .article-img{width:100%;max-height:380px;object-fit:cover;border-radius:var(--radius-md);margin-bottom:24px;border:1px solid var(--line);}
-  .article-body{font-family:'Lora',serif;font-size:18px;line-height:1.8;color:#332e21;}
-  .article-body p{margin:0 0 20px;}
-  .article-body h2{font-family:'Libre Franklin',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.01em;margin:32px 0 14px;color:var(--ink);}
-  .article-body h3{font-family:'Libre Franklin',sans-serif;font-weight:700;font-size:21px;margin:26px 0 12px;color:var(--ink);}
-  .article-body strong{font-weight:700;color:var(--ink);}
-  .article-body em{font-style:italic;}
-  .article-body ul, .article-body ol{margin:0 0 20px;padding-left:24px;}
-  .article-body li{margin-bottom:8px;}
-  .article-body blockquote{margin:0 0 20px;padding:2px 20px;border-left:3px solid var(--navy);color:var(--ink-soft);font-style:italic;}
-  .article-body a{color:var(--navy);text-decoration:underline;text-underline-offset:2px;}
+  .article-body{font-family:'Lora',serif;font-size:18px;line-height:1.8;color:#332e21;white-space:pre-wrap;}
   .article-actions{display:flex;gap:10px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);}
 
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;padding:12px 22px;border-radius:100px;opacity:0;transition:opacity .2s, transform .2s;z-index:200;pointer-events:none;}
@@ -387,21 +380,7 @@
     </div>
     <div class="field"><label for="f-image">Image URL (optional)</label><input type="text" id="f-image" placeholder="https://..."></div>
     <div class="field"><label for="f-excerpt">Excerpt / Summary</label><textarea id="f-excerpt" style="min-height:70px" placeholder="One or two sentence summary"></textarea></div>
-    <div class="field">
-      <label for="f-body">Article Body</label>
-      <div class="editor-toolbar">
-        <button type="button" class="editor-btn" id="tb-bold" title="Bold"><b>B</b></button>
-        <button type="button" class="editor-btn" id="tb-italic" title="Italic"><i>I</i></button>
-        <button type="button" class="editor-btn" id="tb-h2" title="Heading">H2</button>
-        <button type="button" class="editor-btn" id="tb-h3" title="Subheading">H3</button>
-        <button type="button" class="editor-btn" id="tb-quote" title="Quote">&ldquo;</button>
-        <button type="button" class="editor-btn" id="tb-ul" title="Bullet list">&bull; List</button>
-        <button type="button" class="editor-btn" id="tb-ol" title="Numbered list">1. List</button>
-        <button type="button" class="editor-btn" id="tb-link" title="Link">Link</button>
-      </div>
-      <textarea id="f-body" placeholder="Write your full article here..."></textarea>
-      <div class="hint">Select text and click a button, or click a button then type. Supports **bold**, *italic*, ## and ### headings, - bullet lists, 1. numbered lists, &gt; quotes, and [text](url) links.</div>
-    </div>
+    <div class="field"><label for="f-body">Article Body</label><textarea id="f-body" placeholder="Write your full article here..."></textarea></div>
     <div class="checkbox-row"><input type="checkbox" id="f-breaking"><label for="f-breaking">Mark as Breaking News</label></div>
     <div class="modal-actions">
       <button class="btn btn-outline" id="cancelBtn">Cancel</button>
@@ -475,62 +454,58 @@ let isAdmin = false;
 
 function uid(){ return 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
 function escapeHtml(str){ const d=document.createElement('div'); d.textContent = str||''; return d.innerHTML; }
-
-/* ---------- SIMPLE MARKDOWN FORMATTING ---------- */
-function mdInline(text){
-  let t = escapeHtml(text);
-  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  t = t.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
-  t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-  return t;
-}
-function mdToHtml(raw){
-  if(!raw) return '';
-  const lines = raw.split(/\r?\n/);
-  let html='', inUL=false, inOL=false, inBQ=false, para=[];
-  const flush = ()=>{ if(para.length){ html += `<p>${para.join(' ')}</p>`; para=[]; } };
-  const closeLists = ()=>{ if(inUL){html+='</ul>';inUL=false;} if(inOL){html+='</ol>';inOL=false;} };
-  const closeBQ = ()=>{ if(inBQ){html+='</blockquote>';inBQ=false;} };
-  for(const line of lines){
-    const t = line.trim();
-    let m;
-    if(t===''){ flush(); closeLists(); closeBQ(); continue; }
-    if(m = t.match(/^###\s+(.*)/)){ flush(); closeLists(); closeBQ(); html+=`<h3>${mdInline(m[1])}</h3>`; continue; }
-    if(m = t.match(/^##\s+(.*)/)){ flush(); closeLists(); closeBQ(); html+=`<h2>${mdInline(m[1])}</h2>`; continue; }
-    if(m = t.match(/^>\s?(.*)/)){ flush(); closeLists(); if(!inBQ){html+='<blockquote>';inBQ=true;} html+=`<p>${mdInline(m[1])}</p>`; continue; }
-    closeBQ();
-    if(m = t.match(/^[-*]\s+(.*)/)){ flush(); if(inOL){html+='</ol>';inOL=false;} if(!inUL){html+='<ul>';inUL=true;} html+=`<li>${mdInline(m[1])}</li>`; continue; }
-    if(m = t.match(/^\d+\.\s+(.*)/)){ flush(); if(inUL){html+='</ul>';inUL=false;} if(!inOL){html+='<ol>';inOL=true;} html+=`<li>${mdInline(m[1])}</li>`; continue; }
-    closeLists();
-    para.push(mdInline(t));
-  }
-  flush(); closeLists(); closeBQ();
-  return html;
-}
-function wrapSelection(textarea, before, after){
-  const start = textarea.selectionStart, end = textarea.selectionEnd;
-  const val = textarea.value;
-  const selected = val.slice(start, end) || 'text';
-  textarea.value = val.slice(0,start) + before + selected + after + val.slice(end);
-  textarea.focus();
-  textarea.setSelectionRange(start+before.length, start+before.length+selected.length);
-}
-function prefixLine(textarea, prefix){
-  const start = textarea.selectionStart, end = textarea.selectionEnd;
-  const val = textarea.value;
-  const lineStart = val.lastIndexOf('\n', start-1)+1;
-  textarea.value = val.slice(0,lineStart) + prefix + val.slice(lineStart);
-  textarea.focus();
-  textarea.setSelectionRange(start+prefix.length, end+prefix.length);
-}
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
 function formatDate(ts){ const d=new Date(ts); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ' · ' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
 function timeAgo(ts){ const diff=Date.now()-ts; const mins=Math.floor(diff/60000); if(mins<1) return 'just now'; if(mins<60) return mins+'m ago'; const hrs=Math.floor(mins/60); if(hrs<24) return hrs+'h ago'; return Math.floor(hrs/24)+'d ago'; }
 
+/* ---------- URL SLUGS & SEO META (per-article URLs) ---------- */
+function slugify(title){
+  return (title||'').toLowerCase().trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60) || 'story';
+}
+function articleUrl(a){ return `/article/${slugify(a.title)}-${a.id}`; }
+function idFromPath(path){
+  const m = path.match(/^\/article\/(.+?)\/?$/);
+  if(!m) return null;
+  const slugId = decodeURIComponent(m[1]);
+  const lastDash = slugId.lastIndexOf('-');
+  return lastDash === -1 ? slugId : slugId.slice(lastDash + 1);
+}
+function setMetaTag(id, attr, value){
+  const el = document.getElementById(id);
+  if(el) el.setAttribute(attr, value);
+}
+function updateMetaForArticle(a){
+  const title = `${a.title} — Trending Today`;
+  document.title = title;
+  setMetaTag('metaDescription', 'content', a.excerpt || '');
+  setMetaTag('ogTitle', 'content', a.title);
+  setMetaTag('ogDescription', 'content', a.excerpt || '');
+  setMetaTag('ogType', 'content', 'article');
+  setMetaTag('ogUrl', 'content', location.origin + articleUrl(a));
+}
+function resetMetaToDefault(){
+  document.title = 'Trending Today — News, explained and published by you';
+  setMetaTag('metaDescription', 'content', "Independent, self-published news — breaking stories, opinion, and everyday reads across World, Business & Technology, Consumer & Lifestyle, Property & Healthcare, Sports, and Entertainment.");
+  setMetaTag('ogTitle', 'content', 'Trending Today');
+  setMetaTag('ogDescription', 'content', 'Independent, self-published news — breaking stories, opinion, and everyday reads.');
+  setMetaTag('ogType', 'content', 'website');
+  setMetaTag('ogUrl', 'content', location.origin + '/');
+}
+
 /* live sync — every visitor's page updates automatically as articles change */
 onSnapshot(query(articlesCol, orderBy('createdAt','desc')), (snap)=>{
   articles = snap.docs.map(d=>({ id:d.id, ...d.data() }));
-  renderAll();
+  if(!initialRouteHandled){
+    initialRouteHandled = true;
+    handleRouteFromUrl(false); // don't push — URL is already correct from page load
+  } else {
+    renderAll();
+  }
 }, (err)=>{
   console.error('Firestore error', err);
   showToast('Could not load articles — check Firebase config/rules');
@@ -621,10 +596,27 @@ async function deleteArticle(id, e){
 function editArticle(id, e){ if(e) e.stopPropagation(); const a=articles.find(x=>x.id===id); if(a) openModal(a); }
 
 /* ---------- ARTICLE VIEW ---------- */
-function openArticle(id){
+let viewCountedFor = null; // avoid double-counting a view on popstate re-render of the same article
+
+function openArticle(id, opts){
+  opts = opts || {};
+  const push = opts.push !== false;
+  const e = opts.event;
+  if(e) e.preventDefault();
+
   const a = articles.find(x=>x.id===id);
-  if(!a) return;
-  updateDoc(doc(db,'articles',id), { views: increment(1) }).catch(()=>{});
+  if(!a){
+    renderNotFound(push);
+    return;
+  }
+
+  if(push) history.pushState({ articleId: id }, '', articleUrl(a));
+  if(viewCountedFor !== id){
+    updateDoc(doc(db,'articles',id), { views: increment(1) }).catch(()=>{});
+    viewCountedFor = id;
+  }
+  updateMetaForArticle(a);
+
   const m = META[a.category] || META['World'];
   document.getElementById('homeView').style.display = 'none';
   const view = document.getElementById('articleView');
@@ -640,25 +632,55 @@ function openArticle(id){
       <span>By ${escapeHtml(a.author)}</span><span>${formatDate(a.createdAt)}</span><span>${a.views||0} views</span>
     </div>
     ${a.image ? `<img src="${a.image}" class="article-img" alt="" onerror="this.style.display='none'">` : ''}
-    <div class="article-body">${mdToHtml(a.body)}</div>
+    <div class="article-body">${escapeHtml(a.body)}</div>
     ${isAdmin ? `
     <div class="article-actions">
       <button class="btn btn-outline" id="editFromView">Edit</button>
       <button class="btn btn-outline" id="deleteFromView" style="color:var(--brick);border-color:var(--brick);">Delete</button>
     </div>` : ''}
   `;
-  document.getElementById('backLink').addEventListener('click', closeArticle);
+  document.getElementById('backLink').addEventListener('click', (ev)=>{ ev.preventDefault(); closeArticle(); });
   if(isAdmin){
     document.getElementById('editFromView').addEventListener('click', ()=>editArticle(a.id));
-    document.getElementById('deleteFromView').addEventListener('click', (e)=>deleteArticle(a.id,e));
+    document.getElementById('deleteFromView').addEventListener('click', (ev)=>deleteArticle(a.id,ev));
   }
   window.scrollTo(0,0);
 }
-function closeArticle(){
+
+function renderNotFound(push){
+  if(push) history.pushState({}, '', location.pathname);
+  resetMetaToDefault();
+  document.getElementById('homeView').style.display = 'none';
+  const view = document.getElementById('articleView');
+  view.style.display = 'block';
+  view.innerHTML = `
+    <div class="back-link" id="backLink">&larr; Back to Trending Today</div>
+    <h1 class="display">Story not found</h1>
+    <p style="font-family:'Lora',serif;font-size:16px;color:var(--ink-soft);">This article may have been removed, or the link is incorrect.</p>
+  `;
+  document.getElementById('backLink').addEventListener('click', (ev)=>{ ev.preventDefault(); closeArticle(); });
+  window.scrollTo(0,0);
+}
+
+function closeArticle(opts){
+  opts = opts || {};
+  const push = opts.push !== false;
+  if(push) history.pushState({}, '', '/');
+  resetMetaToDefault();
+  viewCountedFor = null;
   document.getElementById('articleView').style.display = 'none';
   document.getElementById('homeView').style.display = 'block';
   renderAll();
 }
+
+/* ---------- ROUTING: real URLs, back/forward, deep links ---------- */
+let initialRouteHandled = false;
+function handleRouteFromUrl(push){
+  const id = idFromPath(location.pathname);
+  if(id) openArticle(id, { push: !!push });
+  else closeArticle({ push: !!push });
+}
+window.addEventListener('popstate', ()=>{ handleRouteFromUrl(false); });
 
 /* ---------- RENDER: HERO ---------- */
 function renderHero(){
@@ -703,7 +725,7 @@ function renderTrending(){
   wrap.innerHTML = `<div class="index-list">${ranked.map((a,i)=>{
     const m = META[a.category] || META['World'];
     return `
-      <div class="index-row" data-id="${a.id}">
+      <a class="index-row" href="${articleUrl(a)}" data-id="${a.id}">
         <div class="index-num">0${i+1}</div>
         <div class="index-main">
           <span class="index-tag" style="color:var(--${m.color});"><span class="tag-dot" style="background:var(--${m.color});"></span>${a.category}</span>
@@ -711,9 +733,9 @@ function renderTrending(){
         </div>
         <div class="index-meta">${a.views||0} views</div>
         <svg class="index-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </div>`;
+      </a>`;
   }).join('')}</div>`;
-  wrap.querySelectorAll('.index-row').forEach(el=>el.addEventListener('click', ()=>openArticle(el.dataset.id)));
+  wrap.querySelectorAll('.index-row').forEach(el=>el.addEventListener('click', (e)=>openArticle(el.dataset.id, { event: e })));
 }
 
 /* ---------- RENDER: LATEST ---------- */
@@ -754,7 +776,7 @@ function renderLatest(){
     const m = META[a.category] || META['World'];
     const bgStyle = a.image ? `background-image:url('${a.image}')` : `background:linear-gradient(135deg,var(--${m.color}-bg),var(--bg-alt))`;
     return `
-      <div class="blog-card" data-id="${a.id}">
+      <a class="blog-card" href="${articleUrl(a)}" data-id="${a.id}">
         <div class="blog-thumb" style="${bgStyle}"></div>
         <div class="blog-body">
           <span class="blog-cat" style="color:var(--${m.color});">${a.breaking?'⬤ Breaking · ':''}${a.category}</span>
@@ -769,11 +791,11 @@ function renderLatest(){
             </div>` : ''}
           </div>
         </div>
-      </div>`;
+      </a>`;
   }).join('')}</div>`;
 
   wrap.querySelectorAll('.blog-card').forEach(el=>{
-    el.addEventListener('click', (e)=>{ if(e.target.closest('button')) return; openArticle(el.dataset.id); });
+    el.addEventListener('click', (e)=>{ if(e.target.closest('button')) return; openArticle(el.dataset.id, { event: e }); });
   });
   wrap.querySelectorAll('[data-edit]').forEach(btn=>btn.addEventListener('click',(e)=>editArticle(btn.dataset.edit,e)));
   wrap.querySelectorAll('[data-del]').forEach(btn=>btn.addEventListener('click',(e)=>deleteArticle(btn.dataset.del,e)));
@@ -802,16 +824,16 @@ function renderFeatured(){
   const m = META[featured.category] || META['World'];
   const bgStyle = featured.image ? `background-image:url('${featured.image}');background-size:cover;background-position:center;` : `background:linear-gradient(135deg,var(--${m.color}-bg),var(--bg-alt));`;
   wrap.innerHTML = `
-    <div class="case-card" data-id="${featured.id}">
+    <a class="case-card" href="${articleUrl(featured)}" data-id="${featured.id}">
       <div class="case-visual" style="${bgStyle}"></div>
       <div class="case-content">
         <div class="section-label">Editor's Pick · Most read</div>
         <h3 class="display">${escapeHtml(featured.title)}</h3>
         <p>${escapeHtml(featured.excerpt)}</p>
-        <button class="btn" style="width:fit-content;">Read the full story</button>
+        <span class="btn" style="width:fit-content;">Read the full story</span>
       </div>
-    </div>`;
-  wrap.querySelector('.case-card').addEventListener('click', ()=>openArticle(featured.id));
+    </a>`;
+  wrap.querySelector('.case-card').addEventListener('click', (e)=>openArticle(featured.id, { event: e }));
 }
 
 /* ---------- RENDER: STATS ---------- */
@@ -847,18 +869,6 @@ document.getElementById('cancelBtn').addEventListener('click', closeModal);
 document.getElementById('saveBtn').addEventListener('click', handleSave);
 document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay') closeModal(); });
 document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeModal(); closeLogin(); } });
-
-document.getElementById('tb-bold').addEventListener('click', ()=>wrapSelection(document.getElementById('f-body'), '**','**'));
-document.getElementById('tb-italic').addEventListener('click', ()=>wrapSelection(document.getElementById('f-body'), '*','*'));
-document.getElementById('tb-h2').addEventListener('click', ()=>prefixLine(document.getElementById('f-body'), '## '));
-document.getElementById('tb-h3').addEventListener('click', ()=>prefixLine(document.getElementById('f-body'), '### '));
-document.getElementById('tb-quote').addEventListener('click', ()=>prefixLine(document.getElementById('f-body'), '> '));
-document.getElementById('tb-ul').addEventListener('click', ()=>prefixLine(document.getElementById('f-body'), '- '));
-document.getElementById('tb-ol').addEventListener('click', ()=>prefixLine(document.getElementById('f-body'), '1. '));
-document.getElementById('tb-link').addEventListener('click', ()=>{
-  const url = prompt('Enter the URL:', 'https://');
-  if(url) wrapSelection(document.getElementById('f-body'), '[', `](${url})`);
-});
 
 document.getElementById('loginBtn').addEventListener('click', openLogin);
 document.getElementById('logoutBtn').addEventListener('click', handleLogout);
